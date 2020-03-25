@@ -6,7 +6,6 @@ import axios from 'axios';
 import {hashPasswordWithCycles} from "../../../utils/hashPassword";
 import {IAuthenticationResult} from "../interface/IAuthenticationResult";
 import {IAuctionResult} from "../interface/IAuctionResult";
-import {writeFileSync} from "fs";
 import {injectable} from "inversify";
 
 @injectable()
@@ -73,7 +72,6 @@ export class CarOnSaleClient implements ICarOnSaleClient {
         await this.authenticate();
         const url = this.apiUrlBuilder.buildUrl(API_URL.GET_RUNNING_AUCTIONS);
         const {data} = await axios.get<IAuctionResult>(url, {headers: {"userid": this.authData.userId, "authtoken": this.authData.token}});
-        writeFileSync('test.json', JSON.stringify(data));
         return data;
     }
 
