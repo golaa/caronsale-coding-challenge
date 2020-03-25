@@ -35,7 +35,14 @@ export class AuctionMonitorApp {
     public async getRunningAuctionsStatistics(): Promise<IRunningAuctionStatistics> {
         this.logger.log(`Calling API`);
 
-        const data = await this.apiClient.getRunningAuctions();
+        let data;
+
+        try {
+            data = await this.apiClient.getRunningAuctions();
+        } catch {
+            this.logger.log('Failed to instantiate API Client');
+            process.exit(2);
+        }
 
         this.logger.log(`Received Result from API, aggregating...\n`);
 
