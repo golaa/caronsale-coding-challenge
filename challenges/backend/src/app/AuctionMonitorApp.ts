@@ -54,7 +54,7 @@ export class AuctionMonitorApp {
             // Total number of auctions returned
             numberOfAuctions: data.total,
             // Sum of number of bids (all auctions) divided by total number of auctions
-            averageNumberOfBids: totalNumberOfBids / data.items.length,
+            averageNumberOfBids: parseFloat((totalNumberOfBids / data.items.length).toFixed(2)),
             // Sum of progress of all auctions divided by total number of auctions (and format it to a readable format)
             averageAuctionProgress: parseFloat((allAuctionProgressSum / data.items.length).toFixed(2))
         };
