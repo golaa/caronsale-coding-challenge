@@ -1,7 +1,10 @@
 import {ICarOnSaleClient} from "../interface/ICarOnSaleClient";
 import {CarOnSaleClient} from "./CarOnSaleClient";
-import {expect} from "chai";
+import chai, {expect} from "chai";
+import chaiAsPromised from "chai-as-promised";
 import dotenv from "dotenv";
+
+chai.use(chaiAsPromised);
 
 describe('CarOnSaleClient', () => {
 
@@ -19,6 +22,23 @@ describe('CarOnSaleClient', () => {
         expect(token).to.be.an('object');
         // tslint:disable-next-line:no-unused-expression
         expect(token.authenticated).to.be.true;
+    });
+
+    it('should throw an error when trying to authenticate with invalid credentials', async () => {
+        const originalPassword = process.env.SALESMAN_API_PASSWORD;
+       process.env.SALESMAN_API_PASSWORD = 'invalid';
+
+       // Re-initialize CarOnSaleClient so it loads the invalid password from env
+       client = new CarOnSaleClient();
+
+       const callWithInvalidCredentials = async () => {
+         return client.getAuthenticationToken();
+       };
+
+       await expect(callWithInvalidCredentials()).to.eventually.be.rejectedWith('Authentication failed');
+
+       // Reset password to original value
+       process.env.SALESMAN_API_PASSWORD = originalPassword;
     });
 
     it('should get a list of running auctions', async () => {
