@@ -3,6 +3,14 @@ import {ILogger} from "./services/Logger/interface/ILogger";
 import {Logger} from "./services/Logger/classes/Logger";
 import {AuctionMonitorApp} from "./AuctionMonitorApp";
 import {DependencyIdentifier} from "./DependencyIdentifiers";
+import dotenv from "dotenv";
+import {ICarOnSaleClient} from "./services/CarOnSaleClient/interface/ICarOnSaleClient";
+import {CarOnSaleClient} from "./services/CarOnSaleClient/classes/CarOnSaleClient";
+
+/*
+ * Configure Environment from .env file
+ */
+dotenv.config();
 
 /*
  * Create the DI container.
@@ -15,6 +23,7 @@ const container = new Container({
  * Register dependencies in DI environment.
  */
 container.bind<ILogger>(DependencyIdentifier.LOGGER).to(Logger);
+container.bind<ICarOnSaleClient>(DependencyIdentifier.API_CLIENT).to(CarOnSaleClient);
 
 
 /*
